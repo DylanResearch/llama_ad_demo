@@ -7,16 +7,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)   # shared libs
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)   # static libs / .lib import files
 
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
-    "${CMAKE_SOURCE_DIR}/main.cpp"
     "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
-add_executable(llama_ad_demo ${PROJECT_SOURCES}) #create an executable from main.cpp
+add_executable(llama_ad_demo "${CMAKE_SOURCE_DIR}/main.cpp" ${PROJECT_SOURCES}) #create an executable from main.cpp
 
 target_compile_definitions(llama_ad_demo PRIVATE PROJECT_ROOT="${CMAKE_SOURCE_DIR}") #adding filepath for easier folder management
 target_include_directories(llama_ad_demo PRIVATE src)
-target_include_directories(llama_ad_demo PRIVATE imgui)
-target_include_directories(llama_ad_demo PRIVATE imgui/backends)
-target_link_libraries(llama_ad_demo PRIVATE opengl32)
 
 add_subdirectory(llama.cpp llama)
 add_subdirectory(llama.cpp/tools/mtmd mtmd)

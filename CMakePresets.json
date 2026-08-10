@@ -2,39 +2,61 @@
     "version": 3,
     "configurePresets": [
         {
-            "name": "Release",
+            "name": "MSVC Debug",
+            "binaryDir": "${sourceDir}/build/msvc/debug",
+            "hidden": false,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "GGML_CUDA": "ON"
+            }
+        },
+        {
+            "name": "MSVC Release",
+            "binaryDir": "${sourceDir}/build/msvc/release",
             "hidden": false,
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
                 "GGML_CUDA": "ON"
-            },
-            "warnings": {
-                "unusedCli": false
             }
         },
         {
-            "name": "Debug",
-            "hidden": false,
+            "name": "clangd Debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/clangd/debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "BUILD_TESTS": true,
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-                "GGML_CUDA": "ON"
+                "GGML_CUDA": "ON",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            }
+        },
+        {
+            "name": "clangd Release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/clangd/release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "GGML_CUDA": "ON",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
             }
         }
     ],
     "buildPresets": [
         {
-            "name": "vs2022-release",
-            "displayName": "Visual Studio 2022 Release Build",
-            "configurePreset": "Release",
+            "name": "release",
+            "displayName": "Release Build",
+            "configurePreset": "clangd Release",
             "configuration": "Release"
         },
         {
-            "name": "vs2022-debug",
-            "displayName": "Visual Studio 2022 Debug Build",
-            "configurePreset": "Debug",
+            "name": "debug",
+            "displayName": "Debug Build",
+            "configurePreset": "clangd Debug",
             "configuration": "Debug"
         }
     ]
