@@ -1,19 +1,24 @@
 cmake_minimum_required(VERSION 3.28)
-project (local_models_cpp)
+project (llama_ad_demo)
 
 set(CMAKE_CXX_STANDARD 17) #C++26
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)   # .exe, .dll
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)   # shared libs
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)   # static libs / .lib import files
 
-add_executable(local_models_cpp 
-                main.cpp
-                src/LlamaInterface.cpp) #create an executable from main.cpp
+file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_SOURCE_DIR}/main.cpp"
+    "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
-target_include_directories(local_models_cpp PRIVATE src) 
-#target_include_directories(local_models_cpp PRIVATE llama.cpp/tools/mdmt)
+add_executable(llama_ad_demo ${PROJECT_SOURCES}) #create an executable from main.cpp
+
+target_compile_definitions(llama_ad_demo PRIVATE PROJECT_ROOT="${CMAKE_SOURCE_DIR}") #adding filepath for easier folder management
+target_include_directories(llama_ad_demo PRIVATE src)
+target_include_directories(llama_ad_demo PRIVATE imgui)
+target_include_directories(llama_ad_demo PRIVATE imgui/backends)
+target_link_libraries(llama_ad_demo PRIVATE opengl32)
 
 add_subdirectory(llama.cpp llama)
 add_subdirectory(llama.cpp/tools/mtmd mtmd)
-target_link_libraries(local_models_cpp PRIVATE llama) #linking so we can include llama.cpp headers in our code
-target_link_libraries(local_models_cpp PRIVATE mtmd) 
+target_link_libraries(llama_ad_demo PRIVATE llama) #linking so we can include llama.cpp headers in our code
+target_link_libraries(llama_ad_demo PRIVATE mtmd) 
