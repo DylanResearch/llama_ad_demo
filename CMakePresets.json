@@ -1,0 +1,41 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "Release",
+            "hidden": false,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "GGML_CUDA": "ON"
+            },
+            "warnings": {
+                "unusedCli": false
+            }
+        },
+        {
+            "name": "Debug",
+            "hidden": false,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "BUILD_TESTS": true,
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "GGML_CUDA": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "vs2022-release",
+            "displayName": "Visual Studio 2022 Release Build",
+            "configurePreset": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "vs2022-debug",
+            "displayName": "Visual Studio 2022 Debug Build",
+            "configurePreset": "Debug",
+            "configuration": "Debug"
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+.vscode/*
+llama.cpp/*
+out/*
+models/*
+images/*
