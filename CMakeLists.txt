@@ -14,7 +14,12 @@ add_executable(llama_ad_demo "${CMAKE_SOURCE_DIR}/main.cpp" ${PROJECT_SOURCES}) 
 target_compile_definitions(llama_ad_demo PRIVATE PROJECT_ROOT="${CMAKE_SOURCE_DIR}") #adding filepath for easier folder management
 target_include_directories(llama_ad_demo PRIVATE src)
 
+set(LLAMA_BUILD_COMMON ON CACHE BOOL "" FORCE)
 add_subdirectory(llama.cpp llama)
 add_subdirectory(llama.cpp/tools/mtmd mtmd)
+add_subdirectory(llama.cpp/tools/tts tts)
+
 target_link_libraries(llama_ad_demo PRIVATE llama) #linking so we can include llama.cpp headers in our code
-target_link_libraries(llama_ad_demo PRIVATE mtmd) 
+target_link_libraries(llama_ad_demo PRIVATE mtmd)
+target_link_libraries(llama_ad_demo PRIVATE gdiplus) #image preview in UI
+target_link_libraries(llama_ad_demo PRIVATE winmm) #PlaySound for generated wav playback

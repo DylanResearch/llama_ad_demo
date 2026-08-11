@@ -284,7 +284,7 @@ std::string LlamaInterface::AnalyzeImage(const std::string &image_filepath, cons
 
         std::string text{buffer, static_cast<size_t>(text_length)};
         std::cout << text;
-        response = text;
+        response += text;
         fflush(stdout);
 
         llama_batch batch = llama_batch_get_one(&new_token_id, 1);
