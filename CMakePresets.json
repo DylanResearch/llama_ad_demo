@@ -26,30 +26,6 @@
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
                 "GGML_CUDA": "ON"
             }
-        },
-        {
-            "name": "clangd Debug",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/clangd/debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-                "GGML_CUDA": "ON",
-                "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++"
-            }
-        },
-        {
-            "name": "clangd Release",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/clangd/release",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-                "GGML_CUDA": "ON",
-                "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++"
-            }
         }
     ],
     "buildPresets": [
