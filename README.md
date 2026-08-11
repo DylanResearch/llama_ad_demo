@@ -1,60 +1,60 @@
 # llama_ad_demo
 
-Windows 桌面演示程序：将图片拖入窗口后，本地视觉 LLM（基于 [llama.cpp](https://github.com/ggml-org/llama.cpp)）对图片进行描述，随后本地 TTS 模型将描述内容朗读出来。
+Windows desktop demo: drag an image onto a window, a local vision LLM (via [llama.cpp](https://github.com/ggml-org/llama.cpp)) describes it, and a local TTS model speaks the description aloud.
 
-## 工作原理
+## How it works
 
-- 将图片文件拖放到程序窗口中。
-- 图片由具备视觉能力的 LLM（Bonsai-27B + mmproj）分析，完全离线运行，依赖 llama.cpp 的 `mtmd` 多模态支持。
-- 生成的文字描述由 Qwen3-TTS 模型合成语音，保存为 `output/` 目录下的 WAV 文件，并自动播放。
+- Drop an image file onto the app window.
+- The image is analyzed by a vision-capable LLM (Bonsai-27B + mmproj) running fully offline via llama.cpp's `mtmd` multimodal support.
+- The resulting text description is synthesized to speech by a Qwen3-TTS model and saved as a WAV file in `output/`, then played back.
 
-所有推理均在本机运行（通过 CUDA 进行 GPU 加速）——无需联网，不依赖任何云端 API。
+All inference runs locally on-device (GPU offload via CUDA) — no network calls, no cloud API.
 
-## 项目结构
+## Project layout
 
 ```
-main.cpp              # 入口文件：组装 LlamaInterface + TtsInterface + UI
+main.cpp              # entry point: wires up LlamaInterface + TtsInterface + UI
 src/
-  LlamaInterface.*     # llama.cpp 模型加载、分词、视觉分析
-  TtsInterface.*        # Qwen3-TTS 模型加载、文本转 WAV 合成
-  UI.*                   # Win32 窗口、拖放、工作线程、播放
-llama.cpp/              # git 子模块（第三方依赖，不纳入版本控制）
-models/                 # GGUF 模型权重文件（不纳入版本控制，见下方说明）
-images/                 # 示例/测试图片（不纳入版本控制）
-output/                 # 生成的 WAV 文件（不纳入版本控制）
+  LlamaInterface.*     # llama.cpp model loading, tokenization, vision analysis
+  TtsInterface.*        # Qwen3-TTS model loading, text-to-WAV synthesis
+  UI.*                   # Win32 window, drag-and-drop, worker thread, playback
+llama.cpp/              # git submodule (vendored dependency, not committed)
+models/                 # GGUF model weights (not committed, see below)
+images/                 # sample/test images (not committed)
+output/                 # generated WAV files (not committed)
 ```
 
-## 环境要求
+## Requirements
 
-- Windows，Visual Studio 2022（MSVC）
-- CMake 3.28 及以上
-- CUDA 工具链（所有预设均启用 GGML_CUDA）
-- OpenSSL（Win64）——仅 MSVC Debug 预设需要
+- Windows, Visual Studio 2022 (MSVC)
+- CMake 3.28+
+- CUDA toolkit (GGML_CUDA is enabled in all presets)
+- OpenSSL (Win64) — only required for the MSVC Debug preset
 
-## 安装步骤
+## Setup
 
-1. 克隆仓库并包含子模块：
+1. Clone with submodules:
    ```
    git clone --recurse-submodules https://github.com/DylanResearch/llama_ad_demo.git
    ```
-   （若已克隆，可执行 `git submodule update --init --recursive`）
+   (or `git submodule update --init --recursive` if already cloned)
 
-2. 将所需的 GGUF 模型文件下载至 `models/` 目录：
-   - `Bonsai-27B-Q1_0.gguf` —— 视觉 LLM
-   - `Bonsai-27B-mmproj-Q8_0.gguf` —— 视觉投影模型
-   - `Qwen3-TTS-12Hz-1.7B-Base-bf16.gguf` —— TTS 主干模型
-   - `mmproj-Qwen3-TTS-12Hz-1.7B-Base-bf16.gguf` —— TTS 编解码/声码器模型
-   - `speaker.wav`（可选）—— 用于声音克隆的参考音频；缺失时自动使用默认音色
+2. Download the required GGUF models into `models/`:
+   - `Bonsai-27B-Q1_0.gguf` — vision LLM
+   - `Bonsai-27B-mmproj-Q8_0.gguf` — vision projector
+   - `Qwen3-TTS-12Hz-1.7B-Base-bf16.gguf` — TTS backbone
+   - `mmproj-Qwen3-TTS-12Hz-1.7B-Base-bf16.gguf` — TTS codec/vocoder
+   - `speaker.wav` (optional) — reference voice for cloning; falls back to the default voice if absent
 
-3. 配置并构建（使用项目提供的 CMake 预设）：
+3. Configure and build (using the provided CMake presets):
    ```
    cmake --preset "MSVC Release"
    cmake --build build/msvc/release
    ```
 
-4. 运行生成的可执行文件，然后将图片文件拖入窗口。
+4. Run the built executable, then drag an image file onto the window.
 
-## 说明
+## Notes
 
-- 模型权重、`llama.cpp` 子模块、示例图片以及生成的 `output/*.wav` 文件均已在 `.gitignore` 中排除——请自行准备模型文件。
-- 视觉 LLM 与 TTS 模型的 GPU 加载层数默认均为全部层（`99`）；若显存有限，请在 [main.cpp](main.cpp) 中调整该参数。
+- Model weights, the `llama.cpp` submodule, sample images, and generated `output/*.wav` files are gitignored — bring your own models.
+- GPU offload defaults to all layers (`99`) for both the vision LLM and TTS model; adjust in [main.cpp](main.cpp) if running on limited VRAM.
