@@ -1,3 +1,5 @@
+<img width="1372" height="1009" alt="image" src="https://github.com/user-attachments/assets/dfb47a44-c750-46a9-99fb-72858b78e462" />
+
 # llama_ad_demo
 
 Windows desktop demo: drag an image onto a window, a local vision LLM (via [llama.cpp](https://github.com/ggml-org/llama.cpp)) describes it, and a local TTS model speaks the description aloud.
