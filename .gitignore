@@ -4,3 +4,6 @@ out/*
 build/*
 models/*
 images/*
+.claude/*
+.vs/*
+output/*

@@ -3,12 +3,17 @@
 #include "LlamaInterface.h"
 #include "TtsInterface.h"
 #include "UI.h"
+#include <fstream>
+#include <iterator>
 
 int main()
 {
+    auto stream = std::ifstream(std::string(PROJECT_ROOT) + "/prompt/vision_prompt.txt");
+    std::string str(std::istreambuf_iterator<char>{stream}, {});
+
     const std::string model_path = std::string(PROJECT_ROOT) + "/models/Bonsai-27B-Q1_0.gguf";
     const std::string vision_path = std::string(PROJECT_ROOT) + "/models/Bonsai-27B-mmproj-Q8_0.gguf";
-    const std::string vision_prompt = "What can you see in this image? Please keep it to 1 or 2 sentences";
+    const std::string vision_prompt = str;
 
     const std::string tts_model_path = std::string(PROJECT_ROOT) + "/models/Qwen3-TTS-12Hz-1.7B-Base-bf16.gguf";
     const std::string tts_mmproj_path = std::string(PROJECT_ROOT) + "/models/mmproj-Qwen3-TTS-12Hz-1.7B-Base-bf16.gguf";

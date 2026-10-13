@@ -9,6 +9,7 @@
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
                 "GGML_CUDA": "ON",
+                "CMAKE_CUDA_ARCHITECTURES": "120a-real",
                 "OPENSSL_ROOT_DIR": "C:/Program Files/OpenSSL-Win64",
                 "LLAMA_OPENSSL": "ON",
                 "LIB_EAY_DEBUG": "C:/Program Files/OpenSSL-Win64/lib/VC/x64/MDd/libcrypto.lib",
@@ -24,7 +25,25 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-                "GGML_CUDA": "ON"
+                "GGML_CUDA": "ON",
+                "CMAKE_CUDA_ARCHITECTURES": "120a-real"
+            }
+        },
+        {
+            "name": "MSVC RelWithDebInfo",
+            "binaryDir": "${sourceDir}/build/msvc/relwithdebinfo",
+            "hidden": false,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "GGML_CUDA": "ON",
+                "CMAKE_CUDA_ARCHITECTURES": "120a-real",
+                "OPENSSL_ROOT_DIR": "C:/Program Files/OpenSSL-Win64",
+                "LLAMA_OPENSSL": "ON",
+                "LIB_EAY_DEBUG": "C:/Program Files/OpenSSL-Win64/lib/VC/x64/MDd/libcrypto.lib",
+                "LIB_EAY_RELEASE": "C:/Program Files/OpenSSL-Win64/lib/VC/x64/MD/libcrypto.lib",
+                "SSL_EAY_DEBUG": "C:/Program Files/OpenSSL-Win64/lib/VC/x64/MDd/libssl.lib",
+                "SSL_EAY_RELEASE": "C:/Program Files/OpenSSL-Win64/lib/VC/x64/MD/libssl.lib"
             }
         }
     ],
@@ -32,14 +51,20 @@
         {
             "name": "release",
             "displayName": "Release Build",
-            "configurePreset": "clangd Release",
+            "configurePreset": "MSVC Release",
             "configuration": "Release"
         },
         {
             "name": "debug",
             "displayName": "Debug Build",
-            "configurePreset": "clangd Debug",
+            "configurePreset": "MSVC Debug",
             "configuration": "Debug"
+        },
+        {
+            "name": "relwithdebinfo",
+            "displayName": "RelWithDebInfo Build",
+            "configurePreset": "MSVC RelWithDebInfo",
+            "configuration": "RelWithDebInfo"
         }
     ]
 }
